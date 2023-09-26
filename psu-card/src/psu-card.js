@@ -32,9 +32,9 @@ class PsuCard extends LitElement {
     color: white;
     display: block;
     flex-direction: column;
-    aign-content: center;
     justify-content: center;
   }
+
   
   
   .card-content> img{
@@ -67,6 +67,18 @@ class PsuCard extends LitElement {
     color: white;
     font-family: "Lucida Console";
   }
+
+  #toggleDescription {
+    display: flex;
+    background-color: white;
+    color: black;
+    width: 40%;
+    align-items: center; 
+    justify-content: center;
+    margin-left: 100px;
+    margin-top: 20px;
+    font-family: "Lucida Console";
+  }
   
   @media (max-width: 800px) and (min-width: 500px) {
     .details-button {
@@ -95,6 +107,10 @@ class PsuCard extends LitElement {
 
   render() {
     return html`
+  <button id="btn">Clone Card</button>
+  <button id="colorBtn">Change Card Color</button>
+  <button id="titleBtn">Change Title</button>
+  <button id="deleteBtn">Delete Last Card</button>
     <div class="cards">
     <div class="card-container">
       <div class="card-content">
@@ -128,10 +144,16 @@ class PsuCard extends LitElement {
     </style>
  </head>
             
-          <button class="details-button">Toggle Description</button>
+      
         </div>
       </div>
-      <p class="description hidden" id="cDescription">110 thousand fans come to watch penn state football to create the greatest show in college football.</p>
+      <details>
+        
+      <summary id = "toggleDescription"  > Toggle Description </summary>
+      <p id = "cDescription" >110 thousand fans come to watch penn state football to create the greatest show in college football.</p>
+
+      </details>
+     
     </div>
   </div>
     `;
@@ -139,18 +161,6 @@ class PsuCard extends LitElement {
 }
 customElements.define('psu-card', PsuCard);
 
-class MyCustomElement extends HTMLElement {
-  constructor() {
-    super();
-  }
 
-  connectedCallback() {
-    this.innerHTML = 'Click me!';
-    this.addEventListener('click', () => {
-      alert('Button clicked!');
-    });
-  }
-}
 
-customElements.define('my-custom-element', MyCustomElement);
 
