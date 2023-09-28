@@ -142,14 +142,18 @@ class PsuCard extends LitElement {
     const cardImage = this.shadowRoot.querySelector('img');
     const cardContainer = this.shadowRoot.querySelector('.card-container');
     const cardClone = this.shadowRoot.querySelector('.card-container');
-    const cardClone2 = this.shadowRoot.querySelector('.card-container');
-
+    
     titleBtn.addEventListener('click', () => {
       cardTitle.innerHTML = 'Penn State Football';
     });
 
-    deleteBtn.addEventListener('click', () => {
-      cards.removeChild(cardClone2);
+    button.addEventListener("click", function (e) {
+      const cardToClone = document.querySelector(".card-container");
+      const cardCloned = cardToClone.cloneNode(true);
+    });
+
+    titleBtn.addEventListener('click', () => {
+      cardTitle.innerHTML = 'Penn State Football';
     });
 
     toggleDescription.addEventListener('click', () => {
@@ -161,12 +165,21 @@ class PsuCard extends LitElement {
     });
 
     cardContent.addEventListener('click', () => {
-      cardImage.classList.toggle('hidden');
+      cardImage.classList.removeChild('hidden');
     });
 
     summary.addEventListener('click', () => {
       cardDescription.classList.toggle('hidden');
     });
+
+}
+
+  deleteBtn(e) {
+      const cards = this.shadowRoot.querySelector('.cards');
+      const cardCount = cards.children.length;
+      if (cardCount > 1) {
+        cards.removeChild(cards.lastChild);
+      } 
   }
 
   randomColorGenerator(e) {
@@ -184,11 +197,11 @@ class PsuCard extends LitElement {
   }
 
   render() {
-    return html`
-  <button id="btn" @click="${this.cloneCard}">Clone Card</button>
-  <button @click="${this.randomColorGenerator}">Change Card Color</button>
-  <button id="titleBtn">Change Title</button>
-  <button id="deleteBtn">Delete Last Card</button>
+  return html`
+  <button id = "btn" @click = "${this.cloneCard}">Clone Card</button>
+  <button @click ="${this.randomColorGenerator}">Change Card Color</button>
+  <button id ="titleBtn">Change Title</button>
+  <button @click ="${this.deleteBtn}">Delete Last Card</button>
   <div class="cards">
   <div class="card-container">
     <div class="card-content">
