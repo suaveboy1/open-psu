@@ -14,6 +14,7 @@ class PsuCard extends LitElement {
     justify-content: space-around;
     
   }
+
   
   .card-container {
     background-color: #001e44;
@@ -24,7 +25,10 @@ class PsuCard extends LitElement {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    transition: background-color 0.3s;
   }
+
+
   
   
   .card-content {
@@ -56,7 +60,7 @@ class PsuCard extends LitElement {
   .card-content button:hover{ 
     background-color: #001e44;
     color: white;
-  
+    transition: background-color 0.3s; 
   }
   
   .card-content button a{
@@ -80,7 +84,36 @@ class PsuCard extends LitElement {
     font-family: "Lucida Console";
   }
   
-  @media (max-width: 800px) and (min-width: 500px) {
+
+
+    .hidden {
+      display: none;
+  }
+  .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+  }
+  .card-container {
+      background-color: #001e44;
+      width: 20%;
+      margin: 8px;
+      padding: 10px;
+      border-radius: 12px;
+    
+  }
+  .card-content img {
+      max-width: 100%;
+      border-radius: 10px;
+  }
+
+
+.card-container:hover {
+  transition: background-color 0.3s; 
+  background-color: lightblue; 
+}
+
+@media (max-width: 800px) and (min-width: 500px) {
     .details-button {
       display: block;
       
@@ -99,66 +132,35 @@ class PsuCard extends LitElement {
       }
     }
 
-    .hidden {
-      display: none;
-  }
-  .cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-  }
-  .card-container {
-      background-color: #001e44;
-      width: 20%;
-      margin: 8px;
-      padding: 10px;
-      border-radius: 12px;
-  }
-  .card-content img {
-      max-width: 100%;
-      border-radius: 10px;
-  }
-
   `;
+
+  
 
   constructor() {
     super();
     this.header = 'My app';
+    this.hovered = false;
   }
 
   firstUpdated() {
-    const titleBtn = this.shadowRoot.querySelector('#titleBtn');
-    const deleteBtn = this.shadowRoot.querySelector('#deleteBtn');
-    const cardTitle = this.shadowRoot.querySelector('#cardTitle');
     const cardDescription = this.shadowRoot.querySelector('#cDescription');
-    const toggleDescription = this.shadowRoot.querySelector('#toggleDescription');
     const btn = this.shadowRoot.querySelector('#btn');
     const card = this.shadowRoot.querySelector('.card-container');
     const clone = card.cloneNode(true);
     const cards = this.shadowRoot.querySelector('.cards');
-    const details = this.shadowRoot.querySelector('details');
     const summary = this.shadowRoot.querySelector('summary');
     const cardContent = this.shadowRoot.querySelector('.card-content');
     const cardImage = this.shadowRoot.querySelector('img');
-    const cardContainer = this.shadowRoot.querySelector('.card-container');
-    const cardClone = this.shadowRoot.querySelector('.card-container');
+ 
     
-    titleBtn.addEventListener('click', () => {
-      cardTitle.innerHTML = 'Penn State Football';
-    });
+   
 
     button.addEventListener("click", function (e) {
       const cardToClone = document.querySelector(".card-container");
-      const cardCloned = cardToClone.cloneNode(true);
+      const clone = cardToClone.cloneNode(true);
     });
 
-    titleBtn.addEventListener('click', () => {
-      cardTitle.innerHTML = 'Penn State Football';
-    });
 
-    toggleDescription.addEventListener('click', () => {
-      cardDescription.classList.toggle('hidden');
-    });
 
     btn.addEventListener('click', () => {
       cards.appendChild(clone);
@@ -171,6 +173,7 @@ class PsuCard extends LitElement {
     summary.addEventListener('click', () => {
       cardDescription.classList.toggle('hidden');
     });
+  
 
 }
 
@@ -182,39 +185,82 @@ class PsuCard extends LitElement {
       } 
   }
 
+
+  cloneCard(e) {
+    console.warn(e);
+    const card = this.shadowRoot.querySelector('.card-container');
+    const clone = card.cloneNode(true);
+    this.shadowRoot.querySelector('.cards').appendChild(clone);
+
+    const clonedToggleButton = clone.querySelector('button');
+    clonedToggleButton.addEventListener('click', () => {
+      const clonedDescription = clone.querySelector('#cDescription');
+      clonedDescription.classList.toggle('hidden');
+    });
+  }
+
+  toggleDescription(e) {
+    console.warn(e);
+    const cardDescription = this.shadowRoot.querySelector('#cDescription');
+    cardDescription.classList.toggle('hidden');
+  }
+  
+
   randomColorGenerator(e) {
     console.warn(e);
     const cardContainer = this.shadowRoot.querySelector('.card-container');
     const randomColor = Math.floor(Math.random() * 16777215).toString(16);
     cardContainer.style.backgroundColor = '#' + randomColor;
-    return randomColor;
+   
   }
 
-  cloneCard(e) {
-    const card = this.shadowRoot.querySelector('.card-container');
-    const clone = card.cloneNode(true);
-    this.shadowRoot.querySelector('.cards').appendChild(clone);
-  }
+  titleBtn(e) {
+    console.warn(e);
+    const cardTitle = this.shadowRoot.querySelector('#cardTitle');
+
+    if (cardTitle.innerText == 'something else')
+    {
+      cardTitle.innerText = 'Penn State Blue and White Game';
+     }
+     else{
+      cardTitle.innerHTML = 'something else';
+     }
+    }
+
+    //This was the only way I could get the hover to work when I clicked the change color buttone
+    //I used css originially, but it would not change the color when I hovered if I used the change color button
+    handleCardHover() {
+      this.hovered = !this.hovered; 
+      const cardContainer = this.shadowRoot.querySelector('.card-container');
+      if (this.hovered) {
+        const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+        cardContainer.style.backgroundColor = '#' + randomColor;
+      } else {
+        cardContainer.style.backgroundColor = '#001e44'; 
+      }
+    }
+  
+
 
   render() {
   return html`
   <button id = "btn" @click = "${this.cloneCard}">Clone Card</button>
   <button @click ="${this.randomColorGenerator}">Change Card Color</button>
-  <button id ="titleBtn">Change Title</button>
+  <button @click ="${this.titleBtn}">Change Title</button>
   <button @click ="${this.deleteBtn}">Delete Last Card</button>
   <div class="cards">
-  <div class="card-container">
+  <div class="card-container"
+  @mouseover="${this.handleCardHover}"
+  @mouseout="${this.handleCardHover}">
+
     <div class="card-content">
       <h2 id="cardTitle">Penn State Blue and White Game</h2>
       <p>Blue and White game day</p>
       <img src="https://www.pennlive.com/resizer/nmIUnuL_9rmAqjXOlD5yFnxF29I=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/BHM62A6AUJFHVJIZHI6BDPJHWY.jpg" alt="Card Image" />
+      <button @click ="${this.toggleDescription}">Toggle Description</button>
     </div>
-    <details>
-      
-    <summary id="toggleDescription"> Toggle Description </summary>
     <p id="cDescription" >110 thousand fans come to watch penn state football to create the greatest show in college football.</p>
-
-    </details>
+   
   
   </div>
 </div>
