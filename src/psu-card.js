@@ -82,8 +82,6 @@ class PsuCard extends LitElement {
     font-family: "Lucida Console";
   }
   
-
-
     .hidden {
       display: none;
   }
@@ -106,11 +104,6 @@ class PsuCard extends LitElement {
   }
 
 
-.card-container:hover {
-  transition: background-color 0.3s; 
-  background-color: lightblue; 
-}
-
 @media (max-width: 800px) and (min-width: 500px) {
     .details-button {
       display: block;
@@ -132,8 +125,6 @@ class PsuCard extends LitElement {
 
 
   `;
-
-  
 
   constructor() {
     super();
@@ -159,8 +150,6 @@ class PsuCard extends LitElement {
       const clone = cardToClone.cloneNode(true);
     });
 
-
-
     btn.addEventListener('click', () => {
       cards.appendChild(clone);
     });
@@ -184,19 +173,6 @@ class PsuCard extends LitElement {
       } 
   }
 
-
-  cloneCard(e) {
-    console.warn(e);
-    const card = this.shadowRoot.querySelector('.card-container');
-    const clone = card.cloneNode(true);
-    this.shadowRoot.querySelector('.cards').appendChild(clone);
-
-    const clonedToggleButton = clone.querySelector('button');
-    clonedToggleButton.addEventListener('click', () => {
-      const clonedDescription = clone.querySelector('#cDescription');
-      clonedDescription.classList.toggle('hidden');
-    });
-  }
 
   toggleDescription(e) {
     console.warn(e);
@@ -231,6 +207,7 @@ class PsuCard extends LitElement {
     handleCardHover() {
       this.hovered = !this.hovered; 
       const cardContainer = this.shadowRoot.querySelector('.card-container');
+
       if (this.hovered) {
         const randomColor = Math.floor(Math.random() * 16777215).toString(16);
         cardContainer.style.backgroundColor = '#' + randomColor;
@@ -238,8 +215,31 @@ class PsuCard extends LitElement {
         cardContainer.style.backgroundColor = '#001e44'; 
       }
     }
-  
 
+  //Cloned card properties and functions
+  cloneCard(e) {
+    console.warn(e);
+    const card = this.shadowRoot.querySelector('.card-container');
+    const clone = card.cloneNode(true);
+  
+    clone.addEventListener('mouseover', () => {
+      const randomColor = Math.floor(Math.random() * 16777215).toString(16); //random color generator for cloned cards when hovered
+      clone.style.backgroundColor = '#' + randomColor;
+    });
+
+    clone.addEventListener('mouseout', () => {
+      clone.style.backgroundColor = '#001e44';
+    });
+  
+    const clonedToggleButton = clone.querySelector('button');
+
+    clonedToggleButton.addEventListener('click', () => {
+      const clonedDescription = clone.querySelector('#cDescription');
+      clonedDescription.classList.toggle('hidden');
+    });
+
+    this.shadowRoot.querySelector('.cards').appendChild(clone);
+  }
 
   render() {
   return html`
@@ -260,7 +260,6 @@ class PsuCard extends LitElement {
     </div>
     <p id="cDescription" >110 thousand fans come to watch penn state football to create the greatest show in college football.</p>
    
-  
   </div>
 </div>
     `;
