@@ -28,8 +28,6 @@ class PsuCard extends LitElement {
     transition: background-color 0.3s;
   }
 
-
-  
   
   .card-content {
     text-align: center;
@@ -42,7 +40,7 @@ class PsuCard extends LitElement {
   
   
   .card-content> img{
-    width: 200px;
+    width: 350px;
     max-width:80%;
     border-radius: 10px;
   }
@@ -131,6 +129,7 @@ class PsuCard extends LitElement {
     display: none;
       }
     }
+
 
   `;
 
