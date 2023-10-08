@@ -53,6 +53,7 @@ class PsuCard extends LitElement {
     color:#001e44 ;
     padding: 8px 12px;
     border-radius: 5px;
+    
   }
   
   .card-content button:hover{ 
@@ -103,7 +104,18 @@ class PsuCard extends LitElement {
       border-radius: 10px;
   }
 
+  //start from here and work on adding details to the cards buttons 
 
+  
+
+ 
+
+
+
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 @media (max-width: 800px) and (min-width: 500px) {
     .details-button {
       display: block;
@@ -133,12 +145,10 @@ class PsuCard extends LitElement {
   }
 
   firstUpdated() {
-    const cardDescription = this.shadowRoot.querySelector('#cDescription');
     const btn = this.shadowRoot.querySelector('#btn');
     const card = this.shadowRoot.querySelector('.card-container');
     const clone = card.cloneNode(true);
     const cards = this.shadowRoot.querySelector('.cards');
-    const summary = this.shadowRoot.querySelector('summary');
     const cardContent = this.shadowRoot.querySelector('.card-content');
     const cardImage = this.shadowRoot.querySelector('img');
  
@@ -158,11 +168,7 @@ class PsuCard extends LitElement {
       cardImage.classList.removeChild('hidden');
     });
 
-    summary.addEventListener('click', () => {
-      cardDescription.classList.toggle('hidden');
-    });
   
-
 }
 
   deleteBtn(e) {
@@ -205,8 +211,13 @@ class PsuCard extends LitElement {
     //This was the only way I could get the hover to work when I clicked the change color buttone
     //I used css originially, but it would not change the color when I hovered if I used the change color button
     handleCardHover() {
+    
       this.hovered = !this.hovered; 
       const cardContainer = this.shadowRoot.querySelector('.card-container');
+<<<<<<< Updated upstream
+=======
+    
+>>>>>>> Stashed changes
 
       if (this.hovered) {
         const randomColor = Math.floor(Math.random() * 16777215).toString(16);
@@ -214,6 +225,7 @@ class PsuCard extends LitElement {
       } else {
         cardContainer.style.backgroundColor = '#001e44'; 
       }
+
     }
 
   //Cloned card properties and functions
@@ -238,14 +250,34 @@ class PsuCard extends LitElement {
       clonedDescription.classList.toggle('hidden');
     });
 
+    const changeTitle = this.shadowRoot.querySelector('#writing');
+    changeTitle.addEventListener('click', () => {
+      const title = clone.querySelector('h2');
+      if (title.innerHTML == 'something else')
+      {
+        title.innerHTML = 'Penn State Blue and White Game';
+       }
+        else{
+          title.innerHTML = 'something else';
+        }
+    })
+
+    const changeBackground = this.shadowRoot.querySelector('#background');
+    changeBackground.addEventListener('click', () => {
+      const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+      clone.style.backgroundColor = '#' + randomColor;
+    })
+  
+
+      
     this.shadowRoot.querySelector('.cards').appendChild(clone);
-  }
+    }
 
   render() {
   return html`
   <button id = "btn" @click = "${this.cloneCard}">Clone Card</button>
-  <button @click ="${this.randomColorGenerator}">Change Card Color</button>
-  <button @click ="${this.titleBtn}">Change Title</button>
+  <button id = "background" @click ="${this.randomColorGenerator}">Change Card Color</button>
+  <button id = "writing" @click ="${this.titleBtn}">Change Title</button>
   <button @click ="${this.deleteBtn}">Delete Last Card</button>
   <div class="cards">
   <div class="card-container"
