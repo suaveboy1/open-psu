@@ -4,7 +4,20 @@ import {LitElement, html, css, } from 'lit';
 
 class PsuCard extends LitElement {
   static properties = {
-    header: { type: String },
+    image: { type: String },
+    alt: { type: String },
+    title: { type: String },
+    descripton: { type: String },
+    dark: { type: Boolean, reflect: true },
+  }
+
+  constructor() {
+    super();
+    this.image = "https://www.centredaily.com/sports/college/penn-state-university/psu-football/ap7hi6/picture72664512/alternates/FREE_1140/IMG_Stripe11_2_1_746PA6CA_L184436036";
+    this.title = "Penn State Blue and White Game";
+    this.descripton = "110 thousand fans come to watch penn state football to create the greatest show in college football.";
+    this.alt = "Card Image";
+
   }
 
   static styles = css`
@@ -12,7 +25,11 @@ class PsuCard extends LitElement {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    
+  
+  }
+
+  :host([dark]) .card-container{
+    background-color: grey;
   }
 
   
@@ -104,14 +121,6 @@ class PsuCard extends LitElement {
       border-radius: 10px;
   }
 
-  //start from here and work on adding details to the cards buttons 
-
-  
-
- 
-
-
-
 
 @media (max-width: 800px) and (min-width: 500px) {
     .details-button {
@@ -135,11 +144,7 @@ class PsuCard extends LitElement {
 
   `;
 
-  constructor() {
-    super();
-    this.header = 'My app';
-    this.hovered = false;
-  }
+
 
   firstUpdated() {
     const btn = this.shadowRoot.querySelector('#btn');
@@ -272,18 +277,19 @@ class PsuCard extends LitElement {
   <button id = "background" @click ="${this.randomColorGenerator}">Change Card Color</button>
   <button id = "writing" @click ="${this.titleBtn}">Change Title</button>
   <button @click ="${this.deleteBtn}">Delete Last Card</button>
+  
   <div class="cards">
   <div class="card-container"
   @mouseover="${this.handleCardHover}"
   @mouseout="${this.handleCardHover}">
 
     <div class="card-content">
-      <h2 id="cardTitle">Penn State Blue and White Game</h2>
+      <h2 id="cardTitle">${this.title}</h2>
       <p>Blue and White game day</p>
-      <img src="https://www.pennlive.com/resizer/nmIUnuL_9rmAqjXOlD5yFnxF29I=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/BHM62A6AUJFHVJIZHI6BDPJHWY.jpg" alt="Card Image" />
+      <img src="${this.image}" alt= ${this.alt} />
       <button @click ="${this.toggleDescription}">Toggle Description</button>
     </div>
-    <p id="cDescription" >110 thousand fans come to watch penn state football to create the greatest show in college football.</p>
+    <p id="cDescription" ><slot></slot>${this.descripton} </p>
    
   </div>
 </div>
