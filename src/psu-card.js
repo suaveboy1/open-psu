@@ -112,10 +112,7 @@ class PsuCard extends LitElement {
 
 
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 @media (max-width: 800px) and (min-width: 500px) {
     .details-button {
       display: block;
@@ -214,10 +211,6 @@ class PsuCard extends LitElement {
     
       this.hovered = !this.hovered; 
       const cardContainer = this.shadowRoot.querySelector('.card-container');
-<<<<<<< Updated upstream
-=======
-    
->>>>>>> Stashed changes
 
       if (this.hovered) {
         const randomColor = Math.floor(Math.random() * 16777215).toString(16);
